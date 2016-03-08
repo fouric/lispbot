@@ -8,7 +8,7 @@
   (ql:quickload :split-sequence))
 
 (defparameter *connection* nil)
-(defparameter *masters* '("fouric" "Synt4x"))
+(defparameter *masters* '("fouric" "Synt4x" "nightfly"))
 
 (defun part ()
   (when *connection*
@@ -49,8 +49,10 @@
 			  (setf name-requester sender))
 			 ((eq command 'in-channel-p)
 			  ())
+			 ((eq command 'source)
+			  (irc:privmsg *connection* "#bots" (format nil "~A: https://github.com/fouric/lispbot" sender)))
 			 (t
-			  ())))))))
+			  (irc:privmsg *connection* "#bots" (format nil "~A: Command not recognized: ~A" sender command)))))))))
 	     t)
 	   (names-hook (message)
 	     (setf names (mapcar #'strip-irc-hats (split-sequence:split-sequence #\Space (first (last (irc:arguments message))))))
