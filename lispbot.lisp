@@ -19,14 +19,14 @@
 		    (channel (first arguments))
 		    (contents (second arguments))
 		    (sender (irc:source message)))
-	       ;(format t "message received: ~A~%" (irc:arguments message))
-	       ;(irc:privmsg *connection* sender (format nil "you said: ~A" contents))
-	       (unless names
-		 (irc:names *connection* "#bots"))
-	       ))
+	       (if names
+		   (progn
+		     (print (first (last (irc:arguments names))))
+		     (setf names nil)
+		     (part))
+		 (irc:names *connection* "#bots"))))
 	   (names-hook (message)
-	     ()
-	     ))
+	     (setf names message)))
       (unless *connection*
 	(setf *connection* (irc:connect :nickname "lispbot" :server "irc.cat.pdx.edu" :port 6697 :connection-security :ssl)))
       (irc:join *connection* "#bots" :password (getf (with-open-file (in "auth.dat") (with-standard-io-syntax (read in))) :key))
