@@ -41,17 +41,19 @@
 		   (print command-list)
 		   (when (and (member sender *masters* :test #'string=) (eq 'lispbot (first command-list)))
 		     (let ((command (second command-list)))
-		       (cond
-			 ((eq command 'quit)
+		       (case command
+			 (quit
 			  (part))
-			 ((eq command 'names)
+			 (names
 			  (irc:names *connection* "#bots")
 			  (setf name-requester sender))
-			 ((eq command 'in-channel-p)
-			  ())
-			 ((eq command 'source)
+			 (in-channel-p
+			  (irc:privmsg *connection* "#bots" (format nil (if (member (string-downcase (string (third command-list))) (mapcar #'string-downcase names) :test #'string=)
+									    "User ~A is in the current channel."
+									    "User ~A is not in the current channel.") (string (third command-list)))))
+			 (source
 			  (irc:privmsg *connection* "#bots" (format nil "~A: https://github.com/fouric/lispbot" sender)))
-			 (t
+			 (otherwise
 			  (irc:privmsg *connection* "#bots" (format nil "~A: Command not recognized: ~A" sender command)))))))))
 	     t)
 	   (names-hook (message)
