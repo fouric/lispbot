@@ -56,7 +56,7 @@
 		  (irc:privmsg *connection* sender string-to-send)))))))
 
 (defun run (&optional (channel "#bots") bot-nick)
-  (setf *nick* (or bot-nick (format nil "lispbot~A" (random 100))))
+  (setf *nick* (or bot-nick (format nil "lispbot~A" (random 10000))))
   (unless *connection*
     (setf *connection* (irc:connect :nickname *nick*
 				    :server "irc.cat.pdx.edu"
