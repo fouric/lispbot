@@ -55,8 +55,15 @@
 		  ;; make the string lowercase so that we don't have to use lowercase ourselves
 		  (irc:privmsg *connection* sender string-to-send)))))))
 
+(random 10000)
+
+(let ((random-state (make-random-state t)))
+  (random 100000 random-state))
+
 (defun run (&optional (channel "#bots") bot-nick)
-  (setf *nick* (or bot-nick (format nil "lispbot~A" (random 10000))))
+  (setf *nick* (or bot-nick (format nil "lispbot~A"
+				    (let ((random-state (make-random-state t)))
+				      (random 10000 random-state)))))
   (unless *connection*
     (setf *connection* (irc:connect :nickname *nick*
 				    :server "irc.cat.pdx.edu"
