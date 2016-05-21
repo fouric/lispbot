@@ -60,7 +60,7 @@
 (let ((random-state (make-random-state t)))
   (random 100000 random-state))
 
-(defun run (&optional (channel "#bots") bot-nick)
+(defun run (&optional (channel "#lisp") bot-nick)
   (setf *nick* (or bot-nick (format nil "lispbot~A"
 				    (let ((random-state (make-random-state t)))
 				      (random 10000 random-state)))))
