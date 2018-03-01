@@ -49,7 +49,9 @@
         ("hello"
          (let ((string-to-send (format nil "Hello, ~A!" sender)))
            ;; make the string lowercase so that we don't have to use lowercase ourselves
-           (irc:privmsg *connection* sender string-to-send)))))))
+           (irc:privmsg *connection* sender string-to-send)))
+        (t
+         (irc:privmsg *connection* channel (format nil "command ~s unimplemented")))))))
 
 (defmacro continuable (&body body)
   `(restart-case
