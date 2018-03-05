@@ -1,12 +1,11 @@
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (progn
-    (declaim (optimize (debug 3)))
-    (ql:quickload :cl-irc)
-    (ql:quickload :cl+ssl)
-    (ql:quickload :split-sequence)
-    (ql:quickload :trivial-shell)
-    (ql:quickload :swank)
-    (ql:quickload :alexandria)))
+(proclaim '(optimize (speed 0) (debug 3)))
+
+(require 'cl-irc)
+(require 'cl+ssl)
+(require 'split-sequence)
+(require 'trivial-shell)
+(require 'swank)
+(require 'alexandria)
 
 (defpackage :lispbot (:use :common-lisp :irc :cl+ssl :split-sequence :alexandria)
             (:export #:run #:part))
